@@ -1,0 +1,61 @@
+#images {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    padding: 3px;
+    border: 1px solid #bbbbbb;
+}
+
+#additem {
+}
+
+#image-input {
+    visibility: hidden;
+}
+
+#thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 0 auto;
+}
+
+.thumbnail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    margin: 2px;
+}
+
+.thumbnail:hover {
+    background: #FF584480;
+}
+
+.thumbnail-selected {
+    background: #FF584450;
+}
+
+.thumbnail img {
+    max-width: 100px;
+}
+
+.button-group {
+    align-self: flex-end;
+}
+
+.add-cancel {
+    display: flex;
+    width: 85%;
+    margin-top: 15px;
+    align-self: center;
+}
+
+.add-cancel button {
+    flex-grow: 1;
+}
+
+.add-cancel button:not(:last-child) {
+    margin-right: 5px;
+}
