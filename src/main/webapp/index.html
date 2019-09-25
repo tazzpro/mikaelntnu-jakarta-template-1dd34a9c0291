@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <style>
+            .userform {
+                display: flex;
+                flex-direction: column;
+                max-width: 400px;
+                margin-bottom: 15px;
+            }
+            
+            .userform label {
+                margin-bottom: 3px;
+            }
+
+            .userform input {
+                margin-bottom: 5px;
+            }
+            
+            .result {
+                max-width: 1000px;
+                overflow: auto;
+                margin-top: 10px;
+            }
+        </style>
+        <h1>Hello from Jakarta Template!</h1>
+        
+        <form class="userform" action="api/auth/create" method="post">
+            <label>User id</label>
+            <input name="uid" required minlength=3/>
+            <label>Password</label>
+            <input name="pwd" type="password" required minlength=3/>
+            <input type="submit" value="Create"/>
+        </form>
+        
+        <div class="userform">
+            <label>User id</label>
+            <input id="uid" required minlength=3/>
+            <label>Password</label>
+            <input id="pwd" type="password" required minlength=3/>
+            <button onclick="login()">Login</button>
+            <div id='loginresult' class="result"></div>
+        </div>
+        
+        <br/>
+        <div class='userform'>
+            <button onclick="secure()">Call Secure</button>
+            <div id='secureresult' class="result"></div>
+        </div>
+        
+        <script>
+            var bearer = '';
+            function login() {
+                const uid = document.getElementById('uid').value;
+                const pwd = document.getElementById('pwd').value;
+                
+                fetch('api/auth/login?uid='+ uid + '&pwd=' + pwd)
+                        .then(response => response.text())
+                        .then(bearer => {
+                            this.bearer = bearer;
+                            document.getElementById('loginresult').innerHTML = 
+                                    '<p>' + bearer + '</p>';
+                        }).catch (exception => console.log(exception));
+            }
+            
+            function secure() {
+                fetch('api/auth/currentuser', {
+                    method: 'GET',
+                    withCredentials: true,
+                    credentials: 'include',
+                    headers: {
+                        'Authorization': 'Bearer ' + this.bearer,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(json => {
+                    document.getElementById('secureresult').innerHTML = 
+                                    '<p>' + JSON.stringify(json) + '</p>';
+                });
+                
+            }
+        </script>
+    </body>
+</html>
