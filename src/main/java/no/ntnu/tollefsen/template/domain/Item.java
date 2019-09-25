@@ -28,10 +28,15 @@ public class Item implements Serializable {
     String title;
     BigDecimal price;
     String description;
+    MediaObject photo;
     
     @ManyToOne
     User seller;
     
     @ManyToOne
     User buyer;
+
+    public void addPhoto(MediaObject photo) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
 }

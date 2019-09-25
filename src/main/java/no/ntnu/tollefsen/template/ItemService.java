@@ -51,17 +51,37 @@ public class ItemService {
             @FormDataParam("uid")String uid,
             @FormDataParam("pwd")String pwd)
     {
-        User user;
+        
         
         try{
-            user = new User();
+            User user = new User();
             System.out.println("Users:" + ent.createQuery("select u from User u", User.class).getResultList());
+            user.setCurrentState(User.State.ACTIVE);
+            user.setFirstName(firstname);
+            user.setLastName(lastname);
+            user.setPassword(pwd);
+            user.setUserid(uid);
+            user.setEmail(email);
+            
         }catch(Exception e)
         {
-            Logger.getLogger(FindService.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, e);
             return Response.serverError().build();
         }
         return Response.ok().build();
     }
+    
+    @GET
+    @Path("deleteme")
+    public Response deleteMe(@FormDataParam("userId") int userId)
+    {
+        User user = ent.find(User.class,principal.getName());
+        //Not a TRUE delete, but for the user he should no longer be able to log in
+        //good for keeping logs on the deleted users purchases
+        user.setCurrentState(User.State.INACTIVE);
+        return Response.ok().build();
+    }
+    
+    
     
 }
